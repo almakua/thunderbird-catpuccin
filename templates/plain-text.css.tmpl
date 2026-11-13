@@ -1,0 +1,32 @@
+
+/* --- Email in testo semplice (plain_text_messages) --------------------- */
+
+:root:has(> body > :is(.moz-text-plain, .moz-text-flowed)) {
+  background-color: var(--ctp-base) !important;
+  color: var(--ctp-role-text) !important;
+}
+
+:is(.moz-text-plain, .moz-text-flowed) {
+  color: var(--ctp-role-text);
+  line-height: 1.55;
+
+  & a:link {
+    color: var(--ctp-role-accent);
+  }
+
+  & a:visited {
+    color: var(--ctp-lavender);
+  }
+
+  & blockquote[type="cite"] {
+    color: var(--ctp-role-secondary) !important;
+  }
+}
+
+/* Firma: colore attenuato ma leggibile, invece dell'opacità al 60%. */
+div.moz-text-flowed > div.moz-txt-sig,
+div.moz-text-plain > pre > div.moz-txt-sig,
+pre.moz-signature {
+  opacity: 1 !important;
+  color: var(--ctp-role-muted) !important;
+}

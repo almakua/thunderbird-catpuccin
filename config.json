@@ -1,0 +1,8 @@
+{
+  "accent": "blue",
+  "ui_font_size": 14,
+  "density": "normal",
+  "row_min_height": 30,
+  "plain_text_messages": true,
+  "force_html_messages": false
+}

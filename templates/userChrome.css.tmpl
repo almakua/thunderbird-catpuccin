@@ -1,0 +1,72 @@
+/* Catppuccin $flavor_name – Leggibile (accento: $accent_name)
+   Generato da build.py: modifica i template, non questo file.
+   Richiede toolkit.legacyUserProfileCustomizations.stylesheets = true. */
+
+$tokens
+
+/* --- Elenco messaggi -------------------------------------------------- */
+
+/* Non letti: grassetto e barra accento a sinistra, leggibili anche senza colore. */
+[is="tree-view-table-body"] > .table-layout[data-properties~="unread"] {
+  font-weight: 700;
+
+  & > td:first-child {
+    box-shadow: inset 3px 0 0 var(--ctp-role-indicator);
+  }
+}
+
+.card-layout[data-properties~="unread"] .card-container {
+  box-shadow: inset 3px 0 0 var(--ctp-role-indicator);
+}
+
+/* Date, dimensioni e destinatari in testo secondario (non sulla riga selezionata). */
+[is="tree-view-table-body"] > .table-layout:not(.selected) > :is(.datecol-column, .receivedcol-column, .sizecol-column, .accountcol-column, .locationcol-column) {
+  color: var(--ctp-role-secondary);
+}
+
+.card-layout:not(.selected) .date {
+  color: var(--ctp-role-secondary);
+}
+
+/* Contrassegnati: oggetto in rosso, tranne quando la riga è selezionata. */
+[is="tree-view-table-body"] > .table-layout[data-properties~="flagged"]:not(.selected) > .subjectcol-column {
+  color: var(--ctp-role-flagged);
+}
+
+/* Separatori tra le righe per seguire la riga con l'occhio. */
+[is="tree-view-table-body"] > .table-layout > td {
+  border-block-end: 1px solid var(--ctp-surface0);
+}
+
+/* --- Riquadro cartelle ------------------------------------------------ */
+
+#folderTree li.unread > .container > .name {
+  font-weight: 700;
+}
+
+#folderTree .folder-count-badge {
+  padding: 1px 6px;
+}
+
+/* --- Intestazione del messaggio ---------------------------------------- */
+
+#expandedsubjectBox {
+  font-size: 1.25em;
+  line-height: 1.3;
+}
+
+.message-header-label {
+  color: var(--ctp-role-secondary);
+}
+
+/* --- Focus e selezione del testo -------------------------------------- */
+
+:is(#folderTree, [is="tree-view-table-body"]):focus-visible {
+  outline: 2px solid var(--ctp-role-indicator) !important;
+  outline-offset: -2px !important;
+}
+
+::selection {
+  background-color: var(--ctp-role-sel-bg);
+  color: var(--ctp-role-sel-text);
+}

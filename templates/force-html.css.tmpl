@@ -1,0 +1,25 @@
+
+/* --- Email HTML con i colori della palette (force_html_messages) --------
+   Invasivo: newsletter e loghi possono perdere leggibilità. */
+
+@-moz-document url-prefix("imap:"), url-prefix("mailbox:"), url-prefix("news:"), url-prefix("ews:"), url-prefix("x-moz-ews:") {
+  html, body {
+    background-color: var(--ctp-base) !important;
+    color: var(--ctp-role-text) !important;
+  }
+
+  body * {
+    background-color: transparent !important;
+    background-image: none !important;
+    color: inherit !important;
+    border-color: var(--ctp-role-selected-unfocused) !important;
+  }
+
+  body a:link, body a:link * {
+    color: var(--ctp-role-accent) !important;
+  }
+
+  body a:visited, body a:visited * {
+    color: var(--ctp-lavender) !important;
+  }
+}

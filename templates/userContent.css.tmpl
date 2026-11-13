@@ -1,0 +1,36 @@
+/* Catppuccin $flavor_name – Leggibile (accento: $accent_name)
+   Generato da build.py: modifica i template, non questo file. */
+
+/* Le pagine interne (impostazioni, componenti aggiuntivi, about:3pane…) seguono la palette. */
+@-moz-document url-prefix("about:"), url-prefix("chrome:") {
+$tokens
+}
+
+/* Variabili disponibili anche nel corpo dei messaggi. */
+:root {
+$vars
+}
+
+/* Citazioni: bordo più spesso, un colore della palette per livello. Solo il
+   bordo, così i colori del testo delle email HTML restano invariati. */
+body blockquote[type="cite"] {
+  border-inline-start: 3px solid var(--ctp-role-quote1) !important;
+
+  & blockquote[type="cite"] {
+    border-inline-start-color: var(--ctp-role-quote2) !important;
+
+    & blockquote[type="cite"] {
+      border-inline-start-color: var(--ctp-role-quote3) !important;
+
+      & blockquote[type="cite"] {
+        border-inline-start-color: var(--ctp-role-quote4) !important;
+
+        & blockquote[type="cite"] {
+          border-inline-start-color: var(--ctp-role-quote5) !important;
+        }
+      }
+    }
+  }
+}
+$plain_text
+$force_html
