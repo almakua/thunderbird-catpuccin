@@ -1,5 +1,5 @@
 
-/* --- Email in testo semplice (plain_text_messages) --------------------- */
+/* plain text mail, enabled by plain_text_messages */
 
 :root:has(> body > :is(.moz-text-plain, .moz-text-flowed)) {
   background-color: var(--ctp-base) !important;
@@ -23,7 +23,7 @@
   }
 }
 
-/* Firma: colore attenuato ma leggibile, invece dell'opacità al 60%. */
+/* signatures use a muted but readable color instead of 60% opacity */
 div.moz-text-flowed > div.moz-txt-sig,
 div.moz-text-plain > pre > div.moz-txt-sig,
 pre.moz-signature {

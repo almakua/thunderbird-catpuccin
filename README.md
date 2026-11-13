@@ -1,58 +1,54 @@
-# Catppuccin per Thunderbird – Leggibile
+# Catppuccin Readable for Thunderbird
 
-Temi Catppuccin (**Latte, Frappé, Macchiato, Mocha**, gli stessi di [catppuccin/ghostty](https://github.com/catppuccin/ghostty)) per Thunderbird 128+, pensati prima di tutto per la leggibilità.
+Catppuccin themes for Thunderbird 128 and newer, with the same four flavors you get in [catppuccin/ghostty](https://github.com/catppuccin/ghostty): Latte, Frappé, Macchiato and Mocha. The whole point is readability, so contrast comes first and the palette bends a little when it has to
 
-Sono tre livelli, che si possono usare insieme o separati:
+There are three pieces, and you can use them together or on their own
 
-| File | Cosa fa | Installazione |
+| File | What it covers | How to install |
 |---|---|---|
-| `dist/catppuccin-<flavor>.xpi` | Colori di cornice, toolbar, cartelle, menu, campi | Componenti aggiuntivi → ⚙ → Installa da file |
-| `userChrome.css` | Elenco messaggi, cartelle, intestazioni, focus, contrasti | `./install.sh <flavor>` |
-| `userContent.css` | Impostazioni, citazioni, email in testo semplice (opz. HTML) | `./install.sh <flavor>` |
+| `dist/catppuccin-<flavor>.xpi` | frame, toolbars, folder pane, menus, fields | Add-ons and Themes → ⚙ → Install Add-on From File |
+| `userChrome.css` | message list, folders, headers, focus, contrast | `./install.sh <flavor>` |
+| `userContent.css` | settings pages, quotes, plain text mail and optionally HTML mail | `./install.sh <flavor>` |
 
-## Installazione
+## Install
 
 ```sh
-python3 build.py              # genera dist/
-python3 contrast_check.py     # verifica i contrasti WCAG
-./install.sh mocha            # o latte | frappe | macchiato  [--profile <percorso>]
+python3 build.py              # builds everything into dist/
+python3 contrast_check.py     # double checks WCAG contrast
+./install.sh mocha            # or latte, frappe, macchiato, optionally with --profile <path>
 ```
 
-Poi installa `dist/catppuccin-mocha.xpi` da Thunderbird e riavvia. Per cambiare flavor: rilancia `install.sh` con il nuovo flavor e attiva il tema corrispondente (i 4 `.xpi` possono restare installati insieme).
+Then install the matching `.xpi` and restart Thunderbird. All four themes can stay installed, so switching flavor just means rerunning `install.sh` and enabling the matching theme
 
-`install.sh` fa un backup dei file che sovrascrive (`*.bak-<data>`) e aggiunge a `user.js`:
-- `toolkit.legacyUserProfileCustomizations.stylesheets = true`, che abilita i CSS;
-- `mail.uifontsize` e `mail.uidensity`, cioè la dimensione del testo e la densità dell'interfaccia.
+`install.sh` finds the profile you actually use through `profiles.ini`, keeps a `*.bak-<date>` copy of anything it overwrites, and sets `toolkit.legacyUserProfileCustomizations.stylesheets`, `mail.uifontsize` and `mail.uidensity` in `user.js`
 
-## Scelte per la leggibilità
+## What makes it readable
 
-- **Contrasti garantiti**: testo primario ≥ 7:1 (AAA) su ogni sfondo, testo secondario, link e selezione ≥ 4.5:1, indicatori ≥ 3:1. Se un colore della palette non basta, `build.py` lo sposta di quanto serve: in Latte, per esempio, il testo è leggermente più scuro di `#4c4f69`.
-- **Gerarchia degli sfondi**: `crust` per la cornice, `mantle` per toolbar e cartelle, `base` per elenco e lettura.
-- **Non letti**: grassetto più una barra accento a sinistra, riconoscibili anche senza distinguere i colori.
-- **Selezione**: sfondo accento pieno quando l'elenco ha il focus, grigio (`surface1`) quando non ce l'ha.
-- **Elenco messaggi**: righe più alte, separatori tra le righe, date in testo secondario.
-- **Intestazione**: oggetto più grande, etichette senza trasparenza.
-- **Citazioni**: bordo di 3px, un colore per livello.
-- **Firme**: colore attenuato invece dell'opacità al 60%.
+Primary text always gets at least 7:1 contrast, secondary text, links and selection at least 4.5:1, and indicators like bars and focus rings at least 3:1. When a palette color can't make it, `build.py` nudges it just enough, which is why Latte text ends up a touch darker than `#4c4f69`
 
-## Configurazione (`config.json`)
+Surfaces follow a simple hierarchy: `crust` for the frame, `mantle` for toolbars and folders, `base` for the message list and the reading pane
 
-| Chiave | Default | Valori |
+Unread messages are bold and carry an accent bar on the left, so you can spot them without relying on color. The selected row is solid accent while the list has focus and turns `surface1` when it doesn't. Rows are taller, separated by thin lines, and dates sit in secondary text. In the message header the subject is bigger and labels are fully opaque. Quotes get a 3px border with a different color per level, and signatures use a muted color instead of fading out
+
+## Config
+
+Everything lives in `config.json`
+
+| Key | Default | Values |
 |---|---|---|
-| `accent` | `blue` | uno dei 14 accenti Catppuccin (`mauve`, `lavender`, `teal`, …) |
-| `ui_font_size` | `14` | px; `0` = default di Thunderbird |
-| `density` | `normal` | `compact`, `normal`, `touch` |
-| `row_min_height` | `30` | altezza minima delle righe in px |
-| `plain_text_messages` | `true` | colori della palette per le email in testo semplice |
-| `force_html_messages` | `false` | forza la palette anche sulle email HTML (**invasivo**: newsletter e loghi possono rovinarsi) |
+| `accent` | `blue` | any of the 14 Catppuccin accents |
+| `ui_font_size` | `14` | in px, `0` keeps the Thunderbird default |
+| `density` | `normal` | `compact`, `normal` or `touch` |
+| `row_min_height` | `30` | in px |
+| `plain_text_messages` | `true` | palette colors for plain text mail |
+| `force_html_messages` | `false` | palette colors for HTML mail too, but it's invasive and can wreck newsletters and logos |
 
-Dopo ogni modifica: `python3 build.py && ./install.sh <flavor>`.
+After any change run `python3 build.py && ./install.sh <flavor>`
 
-> In alternativa a `force_html_messages`, Thunderbird ha un'impostazione nativa per mostrare le email in modo scuro: `mail.dark-reader.enabled`.
+If you'd rather not force colors on HTML mail, Thunderbird has its own dark reader you can turn on with `mail.dark-reader.enabled`
 
-## Struttura
+## How it's put together
 
-- `palette.json`: i 26 colori di ogni flavor (valori ufficiali Catppuccin).
-- `build.py`: definisce i ruoli semantici, i controlli di contrasto e genera `dist/`.
-- `templates/`: i sorgenti CSS. I file in `dist/` sono generati, non vanno modificati a mano.
-- Il tema si aggancia alle variabili di design di Thunderbird (`--layout-*`, `--tree-*`, `--listbox-*`, `--treeitem-*`, `--folderpane-*`) invece di inseguire i selettori. È verificato su Thunderbird 159.
+`palette.json` holds the official Catppuccin colors, `build.py` turns them into roles with contrast rules and writes the output, and `templates/` has the CSS sources. Don't edit `dist/`, it gets regenerated every time
+
+Instead of chasing selectors, the theme overrides Thunderbird's own design tokens (`--layout-*`, `--tree-*`, `--listbox-*`, `--treeitem-*`, `--folderpane-*`), which holds up much better across updates. It's tested on Thunderbird 159

@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Installa userChrome.css / userContent.css di un flavor nel profilo Thunderbird.
-# Uso: ./install.sh <latte|frappe|macchiato|mocha> [--profile <percorso>]
+# copies a flavor's userChrome.css and userContent.css into the Thunderbird profile
+# usage: ./install.sh <latte|frappe|macchiato|mocha> [--profile <path>]
 set -euo pipefail
 
 cd "$(dirname "$0")"
 
 usage() {
-  echo "Uso: $0 <latte|frappe|macchiato|mocha> [--profile <percorso-profilo>]" >&2
+  echo "Usage: $0 <latte|frappe|macchiato|mocha> [--profile <profile-path>]" >&2
   exit 1
 }
 
@@ -32,24 +32,24 @@ if [[ -z "$profile" ]]; then
   esac
   ini="$base/profiles.ini"
   if [[ ! -f "$ini" ]]; then
-    echo "Nessun profiles.ini in $base." >&2
-    echo "Avvia Thunderbird almeno una volta, oppure indica il profilo con --profile." >&2
+    echo "No profiles.ini in $base." >&2
+    echo "Start Thunderbird once, or pass the profile with --profile." >&2
     exit 1
   fi
-  # Il profilo realmente usato è il Default= della sezione [Install…];
-  # il Default=1 delle sezioni [Profile…] è solo il fallback del vecchio profile manager.
+  # the profile really in use is Default= under [Install…]
+  # Default=1 under [Profile…] is just the old profile manager fallback
   rel="$(awk -F= '/^\[Install/{s=1;next} /^\[/{s=0} s && $1=="Default"{print $2; exit}' "$ini")"
   if [[ -z "$rel" ]]; then
     rel="$(awk -F= '/^\[Profile/{p="";d=0} $1=="Path"{p=$2} $1=="Default"&&$2=="1"{d=1} d&&p{print p; exit}' "$ini")"
   fi
-  [[ -n "$rel" ]] || { echo "Impossibile capire il profilo da $ini: usa --profile." >&2; exit 1; }
+  [[ -n "$rel" ]] || { echo "Cannot determine profile from $ini: use --profile." >&2; exit 1; }
   case "$rel" in
     /*) profile="$rel" ;;
     *)  profile="$base/$rel" ;;
   esac
 fi
 
-[[ -d "$profile" ]] || { echo "Profilo non trovato: $profile" >&2; exit 1; }
+[[ -d "$profile" ]] || { echo "Profile not found: $profile" >&2; exit 1; }
 [[ -d "dist/$flavor/chrome" ]] || python3 build.py
 
 stamp="$(date +%Y%m%d-%H%M%S)"
@@ -62,7 +62,7 @@ for file in userChrome.css userContent.css; do
   cp "dist/$flavor/chrome/$file" "$profile/chrome/$file"
 done
 
-# Aggiorna user.js: rimuove le righe delle stesse preferenze, poi aggiunge quelle generate.
+# drops any old lines for our prefs from user.js, then appends the generated ones
 userjs="$profile/user.js"
 if [[ -f "$userjs" ]]; then
   cp "$userjs" "$userjs.bak-$stamp"
@@ -72,8 +72,8 @@ fi
 cat dist/user.js >> "$userjs"
 
 echo
-echo "Installato Catppuccin $flavor in: $profile"
-echo "Ora:"
-echo "  1. Thunderbird → Componenti aggiuntivi e temi → ingranaggio → Installa componente aggiuntivo da file…"
-echo "     e scegli dist/catppuccin-$flavor.xpi"
-echo "  2. Riavvia Thunderbird."
+echo "Installed Catppuccin $flavor into: $profile"
+echo "Next:"
+echo "  1. Thunderbird → Add-ons and Themes → gear → Install Add-on From File…"
+echo "     and pick dist/catppuccin-$flavor.xpi (skip if already installed)"
+echo "  2. Restart Thunderbird."

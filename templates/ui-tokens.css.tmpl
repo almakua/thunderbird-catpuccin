@@ -1,11 +1,10 @@
-/* Palette e ruoli Catppuccin $flavor_name */
+/* catppuccin $flavor_name palette and roles */
 :root {
 $vars
 }
 
-/* Variabili di design di Thunderbird, ridefinite sulla palette.
-   Thunderbird le usa in tutta l'interfaccia (3 riquadri, rubrica, calendario,
-   impostazioni), quindi toccarle qui è più robusto che inseguire i selettori. */
+/* thunderbird design tokens remapped to the palette, they drive the whole UI
+   so overriding them holds up much better than chasing selectors */
 :root {
   color-scheme: $scheme !important;
 
@@ -27,7 +26,7 @@ $vars
   --focus-outline-color: var(--ctp-role-indicator) !important;
   --new-folder-color: var(--ctp-role-new) !important;
 
-  /* Elenco messaggi (vista a tabella) */
+  /* message list, table view */
   --tree-view-bg: var(--ctp-base) !important;
   --tree-view-color: var(--ctp-role-text) !important;
   --tree-view-header-hover-bg: var(--ctp-role-hover) !important;
@@ -42,7 +41,7 @@ $vars
   --thread-pane-unread-fill: var(--ctp-role-indicator) !important;
   --thread-pane-unread-stroke: var(--ctp-role-indicator) !important;
 
-  /* Elenco messaggi (vista a schede) */
+  /* message list, cards view */
   --tree-pane-background: var(--ctp-mantle) !important;
   --tree-card-background: var(--ctp-base) !important;
   --tree-card-border: var(--ctp-surface0) !important;
@@ -58,7 +57,7 @@ $vars
   --tree-card-background-selected-current-unfocused-hover: var(--ctp-role-hover) !important;
   --tree-card-border-selected-unfocused: var(--ctp-surface2) !important;
 
-  /* Riquadro cartelle */
+  /* folder pane */
   --treeitem-background-hover: var(--ctp-role-hover) !important;
   --treeitem-background-selected: var(--ctp-role-selected-unfocused) !important;
   --treeitem-background-active: var(--ctp-role-sel-bg) !important;
@@ -69,10 +68,10 @@ $vars
   --folderpane-total-count-background: var(--ctp-surface0) !important;
   --folderpane-total-count-text: var(--ctp-role-text) !important;
 
-  /* Intestazione del messaggio: etichette piene, non semitrasparenti */
+  /* message header labels at full opacity */
   --message-header-label-opacity: 1 !important;
 
-  /* Campi di ricerca */
+  /* search fields */
   --search-bar-color: var(--ctp-role-text) !important;
   --search-bar-background: var(--ctp-base) !important;
   --search-bar-focus-background: var(--ctp-base) !important;
